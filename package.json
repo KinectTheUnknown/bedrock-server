@@ -1,0 +1,19 @@
+{
+  "name": "bedrock-server",
+  "version": "0.0.1",
+  "description": "A Minecraft Bedrock Server written in Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KinectTheUnknown/bedrock-server.git"
+  },
+  "author": "KinectTheUnknown",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KinectTheUnknown/bedrock-server/issues"
+  },
+  "homepage": "https://github.com/KinectTheUnknown/bedrock-server#readme"
+}
