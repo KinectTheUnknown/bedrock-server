@@ -14,20 +14,6 @@ module.exports = class Level {
   get data() {
     return nbt.simplify(this._data)
   }
-  keys() {
-    return Object.keys(this._data).values()
-  }
-  *values() {
-    for (let key of this.keys()) {
-      yield this._data[key].value
-    }
-  }
-  *entries() {
-    for (let key of this.keys()) {
-      let item = this._data[key]
-      yield [key, item.value, item.type]
-    }
-  }
   has(key) {
     return key in this._data
   }
@@ -43,5 +29,22 @@ module.exports = class Level {
     this._data[key].value = val
 
     return this.save()
+  }
+  keys() {
+    return Object.keys(this._data).values()
+  }
+  *values() {
+    for (let key of this.keys()) {
+      yield this._data[key].value
+    }
+  }
+  *entries() {
+    for (let key of this.keys()) {
+      let item = this._data[key]
+      yield [key, item.value, item.type]
+    }
+  }
+  [Symbol.iterator]() {
+    return this.entries()
   }
 }
