@@ -3,6 +3,9 @@ const path = require("path")
 const fs = require("fs").promises
 const nbt = require("prismarine-nbt")
 const parse = promisify(nbt.parse)
+//The characters removed to avoid having to parse nbt twice
+//(the useful nbt data is nested in the nbt stored in level.dat)
+const prefix = Buffer.from("\b\u0000\u0000\u0000\b\b\u0000\u0000")
 module.exports = class Level {
   constructor(dir, fName = "level.dat") {
     this.file = path.join(dir, fName)
@@ -20,7 +23,7 @@ module.exports = class Level {
   save() {
     let data = nbt.writeUncompressed(this._data)
 
-    return fs.writeFile(this.file, data)
+    return fs.writeFile(this.file, Buffer.concat([prefix, data]))
   }
   set(key, val) {
     if (!this.has(key))
