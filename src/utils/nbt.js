@@ -29,7 +29,7 @@ module.exports = class NBT {
     return key in this._data
   }
   readFile() {
-    return this.readFile(this.file)
+    return fs.readFile(this.file)
   }
   save() {
     return fs.writeFile(this.file, this.rawData)

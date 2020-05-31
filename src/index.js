@@ -1,4 +1,4 @@
 /*eslint-disable global-require*/
-module.export = {
+module.exports = {
   level: require("./world/level.js")
 }
