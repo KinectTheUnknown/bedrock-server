@@ -3,7 +3,7 @@ const path = require("path")
 const fs = require("fs").promises
 const nbt = require("prismarine-nbt")
 const parse = promisify(nbt.parse)
-module.exports = class NBT {
+module.exports = class NBTFile {
   constructor(dir, fName) {
     this.file = path.join(dir, fName)
   }
@@ -12,7 +12,7 @@ module.exports = class NBT {
       throw new Error("Already initiated")
 
     this._data = await this.readFile()
-      .then(NBT.parseData)
+      .then(NBTFile.parseData)
   }
   get data() {
     return nbt.simplify(this._data)
