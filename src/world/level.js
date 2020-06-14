@@ -1,4 +1,4 @@
-const NBT = require("../utils/nbt.js")
+const NBT = require("../utils/nbtFile")
 //The characters removed to avoid having to parse nbt twice
 //(the useful nbt data is nested in the nbt stored in level.dat)
 const prefix = Buffer.from("\b\u0000\u0000\u0000\b\b\u0000\u0000")
