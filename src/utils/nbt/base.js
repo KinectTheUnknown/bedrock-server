@@ -1,4 +1,3 @@
-const {promisify} = require("util")
 const nbt = require("prismarine-nbt")
 module.exports = class NBTBase {
   constructor() {
