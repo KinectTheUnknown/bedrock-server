@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/KinectTheUnknown/bedrock-server#readme",
   "dependencies": {
+    "leveldb-mcpe": "github:KinectTheUnknown/node-leveldb-mcpe#615585b",
+    "levelup": "^4.4.0",
     "prismarine-nbt": "^1.3.0"
   },
   "devDependencies": {
