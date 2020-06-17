@@ -1,18 +1,8 @@
 const {promisify} = require("util")
-const path = require("path")
-const fs = require("fs").promises
 const nbt = require("prismarine-nbt")
-const parse = promisify(nbt.parse)
-module.exports = class NBTFile {
-  constructor(dir, fName) {
-    this.file = path.join(dir, fName)
-  }
-  async init() {
-    if (this._data)
-      throw new Error("Already initiated")
-
-    this._data = await this.readFile()
-      .then(NBTFile.parseData)
+module.exports = class NBTBase {
+  constructor() {
+    this._data = null
   }
   get data() {
     return nbt.simplify(this._data)
@@ -28,19 +18,14 @@ module.exports = class NBTFile {
   has(key) {
     return key in this._data
   }
-  readFile() {
-    return fs.readFile(this.file)
-  }
-  save() {
-    return fs.writeFile(this.file, this.rawData)
-  }
   set(key, val) {
     if (!this.has(key))
       throw new Error("Key does not exist: " + key)
 
     this._data[key].value = val
-
-    return this.save()
+  }
+  toBuffer() {
+    return nbt.writeUncompressed(this._data)
   }
   keys() {
     return Object.keys(this._data).values()
@@ -55,9 +40,6 @@ module.exports = class NBTFile {
       let item = this._data[key]
       yield [key, item.value, item.type]
     }
-  }
-  static parseData(data) {
-    return parse(data, true)
   }
   [Symbol.iterator]() {
     return this.entries()
