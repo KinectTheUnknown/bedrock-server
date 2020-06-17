@@ -10,6 +10,7 @@ module.exports = class Anvil extends LevelDB {
       case 46:
         break
       case 47:
+        return new SubChunk(key, val)
       case 48:
       case 49:
       case 50:
