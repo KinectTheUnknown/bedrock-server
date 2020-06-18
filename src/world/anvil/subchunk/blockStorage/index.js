@@ -24,4 +24,14 @@ module.exports = class BlockStorage {
     this.palette = new Palette(buf.slice(this.totalSize))
     this.totalSize += this.palette.totalSize
   }
+  get(x, y, z) {
+    const key = BlockStorage.coordToKey(x,y,z)
+    const i = 
+  }
+  static coordToKey(x, y, z) {
+    if (Math.max(x, y, z) > 15 || Math.min(x, y, z) < 0)
+      throw new RangeError("Coordinates are out of range")
+
+    return x << 8 | z << 4 | y
+  }
 }

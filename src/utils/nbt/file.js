@@ -14,10 +14,13 @@ module.exports = class NBTFile extends NBTBase {
       throw new Error("Already initiated")
 
     this._data = await this.readFile()
-      .then(NBTFile.parseData)
+      .then(this.parseData)
   }
   get data() {
     return nbt.simplify(this._data)
+  }
+  parseData(data) {
+    return parse(data, this.le)
   }
   readFile() {
     return fs.readFile(this.file)
@@ -29,8 +32,5 @@ module.exports = class NBTFile extends NBTBase {
     super.set(key, val)
 
     return this.save()
-  }
-  static parseData(data, le) {
-    return parse(data, le)
   }
 }

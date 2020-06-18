@@ -6,10 +6,10 @@ module.exports = class Level extends NBTFile {
   constructor(dir, fName = "level.dat", le = true) {
     super(dir, fName, le)
   }
+  parseData(data) {
+    return super.parseData(data.slice(prefix.length))
+  }
   toBuffer() {
     return Buffer.concat([prefix, super.toBuffer()])
-  }
-  static parseData(data) {
-    return super.parseData(data.slice(prefix.length))
   }
 }
