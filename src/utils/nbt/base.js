@@ -1,13 +1,14 @@
 const nbt = require("prismarine-nbt")
 module.exports = class NBTBase {
-  constructor() {
+  constructor(le = false) {
     this._data = null
+    this.le = le
   }
   get data() {
     return nbt.simplify(this._data)
   }
   get rawData() {
-    return nbt.writeUncompressed(this._data)
+    return nbt.writeUncompressed(this._data, this.le)
   }
   get(key) {
     let item = this._data[key]
@@ -24,7 +25,7 @@ module.exports = class NBTBase {
     this._data[key].value = val
   }
   toBuffer() {
-    return nbt.writeUncompressed(this._data)
+    return nbt.writeUncompressed(this._data, this.le)
   }
   keys() {
     return Object.keys(this._data).values()

@@ -5,8 +5,8 @@ const nbt = require("prismarine-nbt")
 const parse = promisify(nbt.parse)
 const NBTBase = require("./base")
 module.exports = class NBTFile extends NBTBase {
-  constructor(dir, fName) {
-    super()
+  constructor(dir, fName, le) {
+    super(le)
     this.file = path.join(dir, fName)
   }
   async init() {
@@ -30,10 +30,7 @@ module.exports = class NBTFile extends NBTBase {
 
     return this.save()
   }
-  toBuffer() {
-    return nbt.writeUncompressed(this._data)
-  }
-  static parseData(data) {
-    return parse(data, true)
+  static parseData(data, le) {
+    return parse(data, le)
   }
 }

@@ -3,8 +3,8 @@ const NBTFile = require("../utils/nbt/file")
 //(the useful nbt data is nested in the nbt stored in level.dat)
 const prefix = Buffer.from("\b\u0000\u0000\u0000\b\b\u0000\u0000")
 module.exports = class Level extends NBTFile {
-  constructor(dir, fName = "level.dat") {
-    super(dir, fName)
+  constructor(dir, fName = "level.dat", le = true) {
+    super(dir, fName, le)
   }
   toBuffer() {
     return Buffer.concat([prefix, super.toBuffer()])
