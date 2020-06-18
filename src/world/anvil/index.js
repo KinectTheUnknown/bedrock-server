@@ -47,8 +47,23 @@ module.exports = class Anvil extends LevelDB {
       case 52:
       case 55:
         throw new Error("Unhandled Deprecated tag " + key.readInt8(8))
+      case "SPECIAL":
+        switch (data.name) {
+          case "Autonomous Entities":
+          case "Nether":
+          case "TheEnd":
+            return val
           default:
+            throw new Error("Unrecognized special tag " + data.name)
+        }
+      default:
         throw new Error("Unrecognized tag " + key.readInt8(8))
+    }
+  }
+  static getChunkCoordFromWorldCoord(x, z) {
+    return {
+      x: Math.floor(x / 16),
+      z: Math.floor(z / 16)
     }
   }
   static getKeyDim(key) {
@@ -75,7 +90,17 @@ module.exports = class Anvil extends LevelDB {
         throw new Error("Unable to resolve type of key " + key.toString("hex"))
     }
   }
-  static generateKey(x, z, type, {dim, ind = 0} = {}) {
+  static generateKey({
+    x = 0,
+    z = 0,
+    type,
+    name = null,
+    dim = null,
+    ind = 0
+  } = {}) {
+    if (type === "SPECIAL")
+      return Buffer.from(name, "ascii")
+
     const key = Buffer.alloc(this.getNeededSize(type, dim))
 
     key.writeInt32LE(x)
