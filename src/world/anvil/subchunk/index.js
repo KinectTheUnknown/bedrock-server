@@ -2,7 +2,8 @@ const BlockStorage = require("./blockStorage/")
 const ChunkBase = require("../chunkbase")
 module.exports = class SubChunk extends ChunkBase {
   constructor(key, val) {
-    super(key)
+    super(key, 47)
+    this.index = key.readUInt8(key.length - 1)
     //Offset when reading value in bytes (8 bits)
     let vOff = 0
     //this.buffer = val

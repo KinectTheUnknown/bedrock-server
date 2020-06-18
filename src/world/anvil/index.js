@@ -5,7 +5,9 @@ module.exports = class Anvil extends LevelDB {
     super(dir, folder)
   }
   static parseEnt(key, val) {
-    switch (Anvil.getKeyTag(key)) {
+    const type = this.getKeyTag(key)
+
+    switch (type) {
       case 45:
       case 46:
         break
@@ -33,9 +35,8 @@ module.exports = class Anvil extends LevelDB {
   static getKeyTag(key) {
     switch (key.length) {
       case 9:  //Not SubChunk, Overworld
-      case 10: //SubChunk, OverWorld
-        return key.readInt8(9)
-      case 13: //Not SubChunk, Not OverWorld
+      case 10: //SubChunk, Overworld
+      case 13: //Not SubChunk, Not Overworld
       case 14: //SubChunk, Not Overworld
         return key.readInt8(13)
       default:
