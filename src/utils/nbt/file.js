@@ -14,7 +14,7 @@ module.exports = class NBTFile extends NBTBase {
       throw new Error("Already initiated")
 
     this._data = await this.readFile()
-      .then(this.parseData)
+      .then(d => this.parseData(d))
   }
   get data() {
     return nbt.simplify(this._data)
