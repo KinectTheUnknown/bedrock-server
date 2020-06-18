@@ -36,9 +36,10 @@ module.exports = class Anvil extends LevelDB {
     switch (key.length) {
       case 9:  //Not SubChunk, Overworld
       case 10: //SubChunk, Overworld
+        return key.readInt8(8)
       case 13: //Not SubChunk, Not Overworld
       case 14: //SubChunk, Not Overworld
-        return key.readInt8(13)
+        return key.readInt8(12)
       default:
         throw new Error("Unable to resolve type of key")
     }
