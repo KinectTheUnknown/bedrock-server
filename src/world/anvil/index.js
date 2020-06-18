@@ -4,6 +4,25 @@ module.exports = class Anvil extends LevelDB {
   constructor(dir, folder = "db") {
     super(dir, folder)
   }
+  static decomposeKey(key) {
+    if (/^[a-z0-9_~\\ -]+$/gi.test(key.toString("ascii"))) {
+      return {
+        type: "SPECIAL",
+        name: key.toString("ascii")
+      }
+    }
+    const res = {
+      type: this.getKeyTag(key),
+      dim: this.getKeyDim(key),
+      x: key.readInt32LE(),
+      z: key.readInt32LE(4)
+    }
+
+    if (res.type === 47)
+      res.index = key.readUInt8(key.length - 1)
+
+    return res
+  }
   static parseEnt(key, val) {
     const data = this.decomposeKey(key)
 
