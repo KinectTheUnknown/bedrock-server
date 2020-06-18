@@ -25,8 +25,10 @@ module.exports = class BlockStorage {
     this.totalSize += this.palette.totalSize
   }
   get(x, y, z) {
-    const key = BlockStorage.coordToKey(x,y,z)
-    const i = 
+    const key = BlockStorage.coordToKey(x, y, z)
+    const i = this.blockStates.states[key]
+
+    return this.palette[i]
   }
   static coordToKey(x, y, z) {
     if (Math.max(x, y, z) > 15 || Math.min(x, y, z) < 0)
