@@ -41,7 +41,7 @@ module.exports = class Anvil extends LevelDB {
       case 14: //SubChunk, Not Overworld
         return key.readInt8(12)
       default:
-        throw new Error("Unable to resolve type of key")
+        throw new Error("Unable to resolve type of key " + key.toString("hex"))
     }
   }
 }
