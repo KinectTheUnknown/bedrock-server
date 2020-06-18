@@ -5,14 +5,14 @@ module.exports = class Anvil extends LevelDB {
     super(dir, folder)
   }
   static parseEnt(key, val) {
-    const type = this.getKeyTag(key)
+    const data = this.decomposeKey(key)
 
-    switch (type) {
+    switch (data.type) {
       case 45:
       case 46:
         break
       case 47:
-        return new SubChunk(key, val)
+        return new SubChunk(key, data, val)
       case 48:
       case 49:
       case 50:
@@ -28,8 +28,20 @@ module.exports = class Anvil extends LevelDB {
       case 52:
       case 55:
         throw new Error("Unhandled Deprecated tag " + key.readInt8(8))
-      default:
+          default:
         throw new Error("Unrecognized tag " + key.readInt8(8))
+    }
+  }
+  static getKeyDim(key) {
+    switch (key.length) {
+      case 9:  //Not SubChunk, Overworld
+      case 10: //SubChunk, Overworld
+        return null
+      case 13: //Not SubChunk, Not Overworld
+      case 14: //SubChunk, Not Overworld
+        return key.readInt8(8)
+      default:
+        throw new Error("Unable to resolve dimension of key")
     }
   }
   static getKeyTag(key) {
@@ -43,5 +55,32 @@ module.exports = class Anvil extends LevelDB {
       default:
         throw new Error("Unable to resolve type of key " + key.toString("hex"))
     }
+  }
+  static generateKey(x, z, type, {dim, ind = 0} = {}) {
+    const key = Buffer.alloc(this.getNeededSize(type, dim))
+
+    key.writeInt32LE(x)
+    key.writeInt32LE(z, 4)
+    if (dim) {
+      if (dim !== 1 && dim !== 2)
+        throw new RangeError("Invalid Dimension value " + dim)
+
+      key.writeUInt32LE(dim, 8)
+    }
+    key.writeUInt8(type, key.length)
+    if (type === 47)
+      key.writeUInt8(ind, key.length)
+
+    return key
+  }
+  static getNeededSize(type, dim) {
+    let size = 9
+    if (dim)
+      size += 4
+
+    if (type === 47)
+      size += 1
+
+    return size
   }
 }
