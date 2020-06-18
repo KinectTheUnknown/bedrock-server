@@ -17,6 +17,16 @@ module.exports = class LevelDB {
       return db
     })
   }
+  getRaw(key) {
+    return new Promise((res, rej) => {
+      this.db.get(key, (err, val) => {
+        if (err)
+          return rej(err)
+
+        res(val)
+      })
+    })
+  }
   async *entries() {
     const iter = this.db.iterator()
 
