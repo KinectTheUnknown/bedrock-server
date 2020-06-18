@@ -17,7 +17,7 @@ module.exports = class LevelDB {
       return db
     })
   }
-  getRaw(key) {
+  get(key) {
     return new Promise((res, rej) => {
       this.db.get(key, (err, val) => {
         if (err)
