@@ -27,6 +27,10 @@ module.exports = class LevelDB {
       })
     })
   }
+  async *keys() {
+    for await (let [key] of this)
+      yield key
+  }
   async *entries() {
     const iter = this.db.iterator()
 
@@ -41,6 +45,10 @@ module.exports = class LevelDB {
       yield ent
     }
     await new Promise((res, rej) => iter.end(e => (e ? rej(e) : res)))
+  }
+  async *values() {
+    for await (let [, val] of this)
+      yield val
   }
   static parseEnt() {
     throw new Error("LevelDB.parseEnt needs to be overridden")
