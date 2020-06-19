@@ -11,14 +11,16 @@ module.exports = class Anvil extends LevelDB {
       .then(ent => Anvil.parseEnt(ent))
   }
   static decomposeKey(key) {
-    if (/^[a-z0-9_~\\ -]+$/gi.test(key.toString("ascii"))) {
+    const type = this.getKeyTag(key)
+    
+    if (type === "SPECIAL") {
       return {
         type: "SPECIAL",
         name: key.toString("ascii")
       }
     }
     const res = {
-      type: this.getKeyTag(key),
+      type,
       dim: this.getKeyDim(key),
       x: key.readInt32LE(),
       z: key.readInt32LE(4)
@@ -85,6 +87,9 @@ module.exports = class Anvil extends LevelDB {
     }
   }
   static getKeyTag(key) {
+    if (/^[a-z0-9_~\\ -]+$/gi.test(key.toString("ascii")))
+      return "SPECIAL"
+    
     switch (key.length) {
       case 9:  //Not SubChunk, Overworld
       case 10: //SubChunk, Overworld
