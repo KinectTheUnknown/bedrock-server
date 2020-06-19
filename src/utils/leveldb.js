@@ -45,4 +45,7 @@ module.exports = class LevelDB {
   static parseEnt() {
     throw new Error("LevelDB.parseEnt needs to be overridden")
   }
+  [Symbol.asyncIterator]() {
+    return this.entries()
+  }
 }
