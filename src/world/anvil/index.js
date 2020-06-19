@@ -12,7 +12,7 @@ module.exports = class Anvil extends LevelDB {
   }
   static decomposeKey(key) {
     const type = this.getKeyTag(key)
-    
+
     if (type === "SPECIAL") {
       return {
         type: "SPECIAL",
@@ -104,7 +104,7 @@ module.exports = class Anvil extends LevelDB {
   static generateKey({
     x = 0,
     z = 0,
-    type,
+    type = undefined,
     name = null,
     dim = null,
     ind = 0
