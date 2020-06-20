@@ -7,9 +7,6 @@ module.exports = class NBTBase {
   get data() {
     return nbt.simplify(this._data)
   }
-  get rawData() {
-    return nbt.writeUncompressed(this._data, this.le)
-  }
   get(key) {
     const keys = key.split(".")
     let item = this._data.value
