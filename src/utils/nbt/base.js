@@ -11,18 +11,47 @@ module.exports = class NBTBase {
     return nbt.writeUncompressed(this._data, this.le)
   }
   get(key) {
-    let item = this._data[key]
+    const keys = key.split(".")
+    let item = this._data
+    for (let [i, k] of keys.entries()) {
+      if (!item) {
+        throw new TypeError(
+          `Can't read property '${keys[i - 1]}' (${i - 1}) of undefined`
+        )
+      }
+      item = k in item ? item[k].value : undefined
+    }
 
-    return item ? item.value : null
+    return item
   }
   has(key) {
-    return key in this._data
+    let curr = this._data
+    for (let k of key.split(".")) {
+      if (!(k in curr))
+        return false
+
+      curr = curr[k].value
+    }
+
+    return true
   }
   set(key, val) {
     if (!this.has(key))
       throw new Error("Key does not exist: " + key)
 
-    this._data[key].value = val
+    const keys = key.split(".")
+    let curr = this._data
+    for (let i = 0; i < keys.length - 1; i++) {
+      const k = keys[i]
+
+      if (!(k in curr)) {
+        throw new TypeError(
+          `The property '${keys[i]}' (${i}) doesn't exist`
+        )
+      }
+      curr = curr[k].value
+    }
+    curr.value = val
   }
   toBuffer() {
     return nbt.writeUncompressed(this._data, this.le)
