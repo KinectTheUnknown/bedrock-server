@@ -7,7 +7,7 @@ module.exports = class NBTBase {
   get data() {
     return nbt.simplify(this._data)
   }
-  get(key) {
+  _get(key) {
     const keys = key.split(".")
     let item = this._data.value
     for (let [i, k] of keys.entries()) {
@@ -20,6 +20,9 @@ module.exports = class NBTBase {
     }
 
     return item
+  }
+  get(key) {
+    return nbt.simplify(this._get(key))
   }
   has(key) {
     let curr = this._data.value
