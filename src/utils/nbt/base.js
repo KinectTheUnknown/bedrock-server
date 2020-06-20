@@ -12,7 +12,7 @@ module.exports = class NBTBase {
   }
   get(key) {
     const keys = key.split(".")
-    let item = this._data
+    let item = this._data.value
     for (let [i, k] of keys.entries()) {
       if (!item) {
         throw new TypeError(
@@ -25,7 +25,7 @@ module.exports = class NBTBase {
     return item
   }
   has(key) {
-    let curr = this._data
+    let curr = this._data.value
     for (let k of key.split(".")) {
       if (!(k in curr))
         return false
@@ -40,7 +40,7 @@ module.exports = class NBTBase {
       throw new Error("Key does not exist: " + key)
 
     const keys = key.split(".")
-    let curr = this._data
+    let curr = this._data.value
     for (let i = 0; i < keys.length - 1; i++) {
       const k = keys[i]
 
@@ -57,16 +57,16 @@ module.exports = class NBTBase {
     return nbt.writeUncompressed(this._data, this.le)
   }
   keys() {
-    return Object.keys(this._data).values()
+    return Object.keys(this._data.value).values()
   }
   *values() {
     for (let key of this.keys()) {
-      yield this._data[key].value
+      yield this._data.value[key].value
     }
   }
   *entries() {
     for (let key of this.keys()) {
-      let item = this._data[key]
+      let item = this._data.value[key]
       yield [key, item.value, item.type]
     }
   }
