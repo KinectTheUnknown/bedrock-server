@@ -1,4 +1,5 @@
 const LevelDB = require("../../utils/leveldb")
+const NBT = require("../../utils/nbt")
 const SubChunk = require("./subchunk")
 module.exports = class Anvil extends LevelDB {
   constructor(dir, folder = "db") {
@@ -29,6 +30,7 @@ module.exports = class Anvil extends LevelDB {
 
     return res
   }
+  //eslint-disable-next-line complexity
   static parseEnt(key, val) {
     const data = this.decomposeKey(key)
 
@@ -54,6 +56,9 @@ module.exports = class Anvil extends LevelDB {
       case 55:
         throw new Error("Unhandled Deprecated tag " + key.readInt8(8))
       case "SPECIAL":
+        if (data.name === "~local_player" || data.name.startsWith("player_"))
+          return new NBT(val, true)
+
         switch (data.name) {
           case "Autonomous Entities":
           case "Nether":
