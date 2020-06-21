@@ -35,13 +35,18 @@ module.exports = class NBTBase {
 
     return true
   }
-  set(key, val) {
+  set(key, val, {create = false}) {
     const curr = this._get(key)
-    
-    if (!curr)
-      throw new Error("Key does not exist: " + key)
+    let created = false
+    if (!curr) {
+      if (!create)
+        throw new Error("Key does not exist: " + key)
 
+      created = true
+    }
     curr.value = val
+
+    return created
   }
   toBuffer() {
     return nbt.writeUncompressed(this._data, this.le)
