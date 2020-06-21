@@ -36,21 +36,11 @@ module.exports = class NBTBase {
     return true
   }
   set(key, val) {
-    if (!this.has(key))
+    const curr = this._get(key)
+    
+    if (!curr)
       throw new Error("Key does not exist: " + key)
 
-    const keys = key.split(".")
-    let curr = this._data.value
-    for (let i = 0; i < keys.length - 1; i++) {
-      const k = keys[i]
-
-      if (!(k in curr)) {
-        throw new TypeError(
-          `The property '${keys[i]}' (${i}) doesn't exist`
-        )
-      }
-      curr = curr[k].value
-    }
     curr.value = val
   }
   toBuffer() {
