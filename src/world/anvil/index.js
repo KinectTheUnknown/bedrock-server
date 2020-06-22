@@ -61,9 +61,10 @@ module.exports = class Anvil extends LevelDB {
 
         switch (data.name) {
           case "AutonomousEntities":
+          case "Overworld":
           case "Nether":
           case "TheEnd":
-            return val
+            return new NBT(val)
           default:
             throw new Error("Unrecognized special tag " + data.name)
         }
