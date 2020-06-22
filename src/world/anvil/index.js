@@ -61,6 +61,7 @@ module.exports = class Anvil extends LevelDB {
 
         switch (data.name) {
           case "AutonomousEntities":
+            return new NBT(val)
           case "Overworld":
           case "Nether":
           case "TheEnd":
