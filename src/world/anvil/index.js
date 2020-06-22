@@ -60,7 +60,7 @@ module.exports = class Anvil extends LevelDB {
           return new NBT(val, true)
 
         switch (data.name) {
-          case "Autonomous Entities":
+          case "AutonomousEntities":
           case "Nether":
           case "TheEnd":
             return val
@@ -90,7 +90,7 @@ module.exports = class Anvil extends LevelDB {
     }
   }
   static getKeyTag(key) {
-    if (/^[a-z0-9_~\\ -]+$/gi.test(key.toString("ascii")))
+    if (/^[a-z0-9_~\\-]+$/gi.test(key.toString("ascii")))
       return "SPECIAL"
     
     switch (key.length) {
