@@ -50,9 +50,6 @@ module.exports = class LevelDB {
     for await (let [, val] of this)
       yield val
   }
-  static parseEnt() {
-    throw new Error("LevelDB.parseEnt needs to be overridden")
-  }
   [Symbol.asyncIterator]() {
     return this.entries()
   }
