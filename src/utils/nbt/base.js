@@ -35,7 +35,7 @@ module.exports = class NBTBase {
 
     return true
   }
-  set(key, val, {create = false}) {
+  set(key, val, {create = false} = {}) {
     const curr = this._get(key)
     let created = false
     if (!curr) {
