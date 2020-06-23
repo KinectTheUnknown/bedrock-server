@@ -56,19 +56,7 @@ module.exports = class Anvil extends LevelDB {
       case 55:
         throw new Error("Unhandled Deprecated tag " + key.readInt8(8))
       case "SPECIAL":
-        if (data.name === "~local_player" || data.name.startsWith("player_"))
-          return new NBT(val, true)
-
-        switch (data.name) {
-          case "AutonomousEntities":
-            return new NBT(val)
-          case "Overworld":
-          case "Nether":
-          case "TheEnd":
-            return new NBT(val)
-          default:
-            throw new Error("Unrecognized special tag " + data.name)
-        }
+        return new NBT(val, true)
       default:
         throw new Error("Unrecognized tag " + key.readInt8(8))
     }
