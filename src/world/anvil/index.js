@@ -36,11 +36,9 @@ module.exports = class Anvil extends LevelDB {
 
     switch (data.type) {
       case 45:
-      case 46:
         break
       case 47:
         return new SubChunk(key, data, val)
-      case 48:
       case 49:
       case 50:
       case 51:
@@ -52,6 +50,8 @@ module.exports = class Anvil extends LevelDB {
       case 119:
         return val
       //Deprecated tags
+      case 46:
+      case 48:
       case 52:
       case 55:
         throw new Error("Unhandled Deprecated tag " + key.readInt8(8))
