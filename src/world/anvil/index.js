@@ -7,7 +7,7 @@ module.exports = class Anvil extends LevelDB {
   }
   get(key) {
     return super.get(key)
-      .then(ent => Anvil.parseEnt(ent))
+      .then(ent => Anvil.parseEnt(key, ent))
   }
   static decomposeKey(key) {
     const type = this.getKeyTag(key)
