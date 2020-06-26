@@ -33,18 +33,22 @@ module.exports = class LevelDB {
   }
   async *entries() {
     const iter = this.db.iterator()
+    const next = () => new Promise((res, rej) => {
+      iter.next((e, k, v) => (e ? rej(e) : res([k, v])))
+    })
 
+    try {
     while (true) {
-      const ent = await new Promise((res, rej) => {
-        iter.next((e, k, v) => (e ? rej(e) : res([k, v])))
-      })
+        const ent = await next()
 
       if (!ent[0])
         break
       
       yield ent
     }
-    await new Promise((res, rej) => iter.end(e => (e ? rej(e) : res)))
+    } finally {
+      await new Promise((res, rej) => iter.end(e => (e ? rej(e) : res())))
+    }
   }
   async *values() {
     for await (let [, val] of this)
