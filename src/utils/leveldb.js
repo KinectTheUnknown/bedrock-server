@@ -4,6 +4,7 @@ const LDn = require("leveldb-mcpe")
 module.exports = class LevelDB {
   constructor(dir, folder) {
     this.dir = path.join(dir, folder)
+    this.get = key => this.db.get(key)
   }
   init() {
     return new Promise((res, rej) => {
@@ -15,16 +16,6 @@ module.exports = class LevelDB {
       })
 
       return db
-    })
-  }
-  get(key) {
-    return new Promise((res, rej) => {
-      this.db.get(key, (err, val) => {
-        if (err)
-          return rej(err)
-
-        res(val)
-      })
     })
   }
   async *keys() {
