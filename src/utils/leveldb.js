@@ -29,14 +29,14 @@ module.exports = class LevelDB {
     })
 
     try {
-    while (true) {
+      while (true) {
         const ent = await next()
 
-      if (!ent[0])
-        break
-      
-      yield ent
-    }
+        if (!ent[0])
+          break
+        
+        yield ent
+      }
     } finally {
       await new Promise((res, rej) => iter.end(e => (e ? rej(e) : res())))
     }
