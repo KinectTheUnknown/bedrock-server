@@ -41,14 +41,15 @@ module.exports = class Anvil extends LevelDB {
         return new SubChunk(key, data, val)
       case 49:
       case 50:
+        return new NBT(val, true)
       case 51:
-      case 53:
-      case 56:
-      case 57:
+        return new NBT(val, true)
+      case 54:
+        return val.readUInt32LE()
       case 58:
-      case 59:
-      case 119:
-        return val
+        return new NBT(val, true)
+      case 118:
+        return val.readUInt8()
       //Deprecated tags
       case 46:
       case 48:
@@ -57,6 +58,11 @@ module.exports = class Anvil extends LevelDB {
         throw new Error("Unhandled Deprecated tag " + key.readInt8(8))
       case "SPECIAL":
         return new NBT(val, true)
+      //Tags that (may) need to be handled
+      case 53: //Not sure what type it is
+      case 56: //Not planning to support Education edition
+      case 57: //Not sure how to parse data
+      case 59: //1.16 just got released, need to check db of that version
       default:
         throw new Error("Unrecognized tag " + key.readInt8(8))
     }
