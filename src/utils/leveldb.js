@@ -4,7 +4,9 @@ const LDn = require("leveldb-mcpe")
 module.exports = class LevelDB {
   constructor(dir, folder) {
     this.dir = path.join(dir, folder)
-    this.get = key => this.db.get(key)
+  }
+  get(key) {
+    return this.db.get(key)
   }
   init() {
     return new Promise((res, rej) => {
