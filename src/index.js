@@ -1,4 +1,4 @@
 /*eslint-disable global-require*/
 module.exports = {
-  level: require("./world/level")
+  Level: require("./world/level"),
 }
