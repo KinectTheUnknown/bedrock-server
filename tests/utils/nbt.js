@@ -1,21 +1,7 @@
 const test = require("ava")
 const fs = require("fs").promises
 const path = require("path")
-const helloWorld = {
-  raw: {
-    type: "compound",
-    name: "hello world",
-    value: {
-      name: {
-        type: "string",
-        value: "Bananrama"
-      }
-    }
-  },
-  simplified: {
-    name: "Bananrama"
-  }
-}
+const helloWorld = require("./hello_world.json")
 /* eslint-disable global-require */
 
 {

@@ -1,0 +1,15 @@
+{
+  "raw": {
+    "type": "compound",
+    "name": "hello world",
+    "value": {
+      "name": {
+        "type": "string",
+        "value": "Bananrama"
+      }
+    }
+  },
+  "simplified": {
+    "name": "Bananrama"
+  }
+}
