@@ -5,7 +5,7 @@ module.exports = class NBTBase {
     this.le = le
   }
   get data() {
-    return nbt.simplify(this._data)
+    return format(this._data.type, this._data.value)
   }
   _get(key) {
     const keys = key.split(".")
@@ -33,9 +33,41 @@ module.exports = class NBTBase {
     return item
   }
   get(key) {
-    const res = this._get(key)
-    
-    return res instanceof Array ? res : nbt.simplify(res)
+    let pKey = key.split(".")
+    const cKey = pKey.pop()
+
+    pKey = pKey.join(".")
+    const parent = pKey ? this._get(pKey) : this._data
+
+    if (!parent)
+      throw new TypeError(`Can't read property ${cKey} of undefined`)
+
+    let cType, cVal
+    switch (parent.type) {
+      case "compound":
+        if (!(cKey in parent.value))
+          return undefined
+
+        cVal = parent.value[cKey]
+        cType = cVal.type
+        cVal = cVal.value
+        break
+      case "list":
+        if (!Number.isInteger(+cKey))
+          throw new TypeError("Index is not a number")
+        
+        if (parseInt(cKey) < 0)
+          throw new RangeError("Index is out of range")
+
+        cVal = parent.value
+        cType = cVal.type
+        cVal = cVal.value[cKey]
+        break
+      default:
+        throw new TypeError("Parent is neither a list nor a compound")
+    }
+
+    return format(cType, cVal)
   }
   has(key) {
     let curr = this._data.value
@@ -103,5 +135,40 @@ module.exports = class NBTBase {
   }
   [Symbol.iterator]() {
     return this.entries()
+  }
+}
+function format(type, value) {
+  switch (type) {
+    case "compound": {
+      const obj = {}
+
+      for (let [key, item] of Object.entries(value))
+        obj[key] = format(item.type, item.value)
+
+      return obj
+    }
+    case "list":
+      return value.value.map(item => format(value.type, item))
+    case "byteArray":
+      return Int8Array.from(value/*, item => format("byte", item)*/)
+    case "long": {
+      let [a, b] = value
+      if (a < 0)
+        a += 2 ** 32
+
+      if (b < 0)
+        b += 2 ** 32
+
+      return BigInt(a) * BigInt(2 ** 32) | BigInt(b)
+    }
+    case "byte":
+    case "short":
+    case "int":
+    case "float":
+    case "double":
+    case "string":
+      return value
+    default:
+      throw new TypeError("Unknown tag type " + type)
   }
 }
