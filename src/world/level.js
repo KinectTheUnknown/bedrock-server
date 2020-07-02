@@ -1,6 +1,4 @@
 const NBTFile = require("../utils/nbt/file")
-//The characters removed to avoid having to parse nbt twice
-//(the useful nbt data is nested in the nbt stored in level.dat)
 module.exports = class Level extends NBTFile {
   constructor(dir, fName = "level.dat", le = true) {
     super(dir, fName, le)
