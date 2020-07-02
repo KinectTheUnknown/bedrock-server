@@ -1,4 +1,8 @@
 module.exports = {
-  files: ["./tests/**/*.js", "!./tests/temp"],
+  files: [
+    "./tests/**/*.js",
+    "!./tests/files",
+    "!./tests/temp"
+  ],
   babel: true
 }
