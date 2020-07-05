@@ -1,4 +1,5 @@
 const nbt = require("prismarine-nbt")
+const NBT = require("../../../../utils/nbt")
 module.exports = class Palette {
   constructor(buf) {
     this.totalSize = 0
@@ -7,14 +8,10 @@ module.exports = class Palette {
     this.totalSize += 4
     this.states = []
     for (let i = 0; i < this.size; i++) {
-      const blockState = nbt.parseUncompressed(buf.slice(this.totalSize), true)
+      const blockState = new NBT(buf.slice(this.totalSize), true)
 
       this.states.push(blockState)
-      this.totalSize += nbtSize(blockState)
+      this.totalSize += blockState.length
     }
   }
-}
-function nbtSize(obj) {
-  //Try to make nbt.proto.sizeOf work
-  return nbt.writeUncompressed(obj).length
 }
