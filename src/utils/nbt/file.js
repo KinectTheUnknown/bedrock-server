@@ -29,11 +29,6 @@ module.exports = class NBTFile extends NBTBase {
   save() {
     return fs.writeFile(this.file, this.toBuffer())
   }
-  set(key, val) {
-    super.set(key, val)
-
-    return this.save()
-  }
   static async parseData(data, le = true) {
     return {
       data: await parse(data, le)
