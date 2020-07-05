@@ -7,6 +7,9 @@ module.exports = class NBTBase {
   get data() {
     return format(this._data.type, this._data.value)
   }
+  get length() {
+    return this.toBuffer().length
+  }
   _get(key) {
     const keys = key.split(".")
     let item = this._data
