@@ -236,7 +236,7 @@
       "no-obj-calls": 2,
       "no-octal": 1,
       "no-octal-escape": 1,
-      "no-param-reassign": 1,
+      "no-param-reassign": 0,
       "no-proto": 2,
       "no-redeclare": 2,
       "no-regex-spaces": 1,
