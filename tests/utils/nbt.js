@@ -87,7 +87,9 @@ const bigTest = require("../files/bigtest")
       "Should return correct item"
     )
     t.true(nbt.get("foo") === undefined)
-    t.throws(() => nbt.get("foo.bar"), {message: "Can't read property bar of undefined"})
+    t.throws(() => nbt.get("foo.bar"), {
+      message: "Can't read property bar of undefined"
+    })
     t.true(nbt.set("foo", {}, "compound"), "Should create new prop")
     t.true(nbt.set("foo.bar", 90, "int"), "Should create new prop")
     t.deepEqual(nbt._get("foo"), {
