@@ -1,4 +1,3 @@
-const nbt = require("prismarine-nbt")
 const NBT = require("../../../../utils/nbt")
 module.exports = class Palette {
   constructor(buf) {
